@@ -1,7 +1,8 @@
 export class Sprite {
-    constructor({ position, image }) {
+    constructor({ position, image, veloicty }) {
         this.position = position;
-        this.image = image
+        this.image = image;
+        this.veloicty = veloicty;
     }
 
     draw(context) {
