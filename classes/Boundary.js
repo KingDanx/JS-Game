@@ -8,7 +8,7 @@ export class Boundary {
     }
 
     draw(context) {
-        context.fillStyle = 'red';
+        context.fillStyle = 'trandsparent';
         context.fillRect(
             this.position.x,
             this.position.y,
