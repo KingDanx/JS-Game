@@ -8,7 +8,7 @@ export class Boundary {
     }
 
     draw(context) {
-        context.fillStyle = 'trandsparent';
+        context.fillStyle = 'transparent';
         context.fillRect(
             this.position.x,
             this.position.y,
