@@ -75,41 +75,65 @@ const keys = {
 
 const keys_pressed = new Set();
 
-// const dog = boundraies[20];
 function animate() {
+    player.isMoving = true;
     const frame = window.requestAnimationFrame(animate);
     background.draw(context);
-    // dog.draw(context)
-    boundraies.map(el => el.draw(context));
+    boundraies.map(el => {
+        el.draw(context);
+    });
     player.draw(context);
-
+    
     move();
-    detect_collision();
 }
 
 animate();
-const moveables = [background];
+
+const moveables = [background, ...boundraies];
 function move() {
     if(keys.w.isPressed && [...keys_pressed].at(-1) === 'w') {
-        moveables.map(el => el.position.y += el.veloicty);
-        boundraies.map(el => el.position.y += el.veloicty);
+        if(boundraies.some(el => collision({...el, position: {x: el.position.x, y: el.position.y + el.veloicty }}))) {
+            player.isMoving = false;
+            return
+        } else {
+            player.isMoving = true;
+            moveables.map(el => el.position.y += el.veloicty);
+        }
     }
     if(keys.a.isPressed && [...keys_pressed].at(-1) === 'a') {
-        moveables.map(el => el.position.x += el.veloicty);
-        boundraies.map(el => el.position.x += el.veloicty);
+        if(boundraies.some(el => collision({...el, position: {x: el.position.x + el.veloicty, y: el.position.y }}))){
+            player.isMoving = false;
+            return
+        } else {
+            player.isMoving = true;
+            moveables.map(el => el.position.x += el.veloicty);
+        }
     }
     if(keys.s.isPressed && [...keys_pressed].at(-1) === 's') {
-        moveables.map(el => el.position.y -= el.veloicty);
-        boundraies.map(el => el.position.y -= el.veloicty);
+        if(boundraies.some(el => collision({...el, position: {x: el.position.x, y: el.position.y - el.veloicty }}))){
+            player.isMoving = false;
+            return
+        } else {
+            player.isMoving = true;
+            moveables.map(el => el.position.y -= el.veloicty);
+        }
     }
     if(keys.d.isPressed && [...keys_pressed].at(-1) === 'd') {
-        moveables.map(el => el.position.x -= el.veloicty);
-        boundraies.map(el => el.position.x -= el.veloicty);
+        if(boundraies.some(el => collision({...el, position: {x: el.position.x - el.veloicty, y: el.position.y }}))){
+            player.isMoving = false;
+            return
+        } else {
+            player.isMoving = true;
+            moveables.map(el => el.position.x -= el.veloicty);
+        }
     }
 }
 
-function detect_collision() {
-
+function collision(boundry) {
+    return player.position.x + player.width >= boundry.position.x 
+        && player.position.y + player.height >= boundry.position.y
+        && player.position.x <= boundry.position.x + Boundary.width
+        && player.position.y <= boundry.position.y + Boundary.height 
 }
 
 window.addEventListener('keydown', (e)=> {
