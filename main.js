@@ -51,6 +51,8 @@ const keys = {
     },
 }
 
+const keys_pressed = new Set();
+
 function animate() {
     const frame = window.requestAnimationFrame(animate);
     background.draw(context);
@@ -62,17 +64,17 @@ function animate() {
 animate();
 
 function move() {
-    if(keys.w.isPressed) {
-        background.position.y = background.position.y + background.veloicty;
+    if(keys.w.isPressed && [...keys_pressed].at(-1) === 'w') {
+        background.position.y += background.veloicty;
     }
-    if(keys.a.isPressed) {
-        background.position.x = background.position.x + background.veloicty;
+    if(keys.a.isPressed && [...keys_pressed].at(-1) === 'a') {
+        background.position.x += background.veloicty;
     }
-    if(keys.s.isPressed) {
-        background.position.y = background.position.y - background.veloicty;
+    if(keys.s.isPressed && [...keys_pressed].at(-1) === 's') {
+        background.position.y -= background.veloicty;
     }
-    if(keys.d.isPressed) {
-        background.position.x = background.position.x - background.veloicty;
+    if(keys.d.isPressed && [...keys_pressed].at(-1) === 'd') {
+        background.position.x -= background.veloicty;
     }
 }
 
@@ -80,15 +82,19 @@ window.addEventListener('keydown', (e)=> {
     switch (e.key) {
         case 'w':
             keys[e.key].isPressed = true;
+            keys_pressed.add(e.key);
             break;
         case 'a':
             keys[e.key].isPressed = true;
+            keys_pressed.add(e.key);
             break;
         case 's':
             keys[e.key].isPressed = true;
+            keys_pressed.add(e.key);
             break;
         case 'd':
             keys[e.key].isPressed = true;
+            keys_pressed.add(e.key);
             break;
         default:
             break;
@@ -99,15 +105,19 @@ window.addEventListener('keyup', (e)=> {
     switch (e.key) {
         case 'w':
             keys[e.key].isPressed = false;
+            keys_pressed.delete(e.key);
             break;
         case 'a':
             keys[e.key].isPressed = false;
+            keys_pressed.delete(e.key);
             break;
         case 's':
-        keys[e.key].isPressed = false;
+            keys[e.key].isPressed = false;
+            keys_pressed.delete(e.key);
             break;
         case 'd':
-        keys[e.key].isPressed = false;
+            keys[e.key].isPressed = false;
+            keys_pressed.delete(e.key);
             break;
         default:
             break;
