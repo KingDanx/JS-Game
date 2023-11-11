@@ -1,8 +1,9 @@
 import { Sprite } from "./Sprite"
 
 export class Player extends Sprite {
-    constructor({ position, image }) {
+    constructor({ position, image, frames }) {
         super({ position, image });
+        this.frames = frames;
     }
 
     draw(context) {
